@@ -1,1 +1,42 @@
 /* Modificaciones de estilos, basados en la librería de Bootstrap */
+.navContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.navIcon {
+  align-self: flex-start;
+  width: 25%;
+}
+.ddCategorias {
+  width: 25%;
+}
+.navBusquedaContainer {
+  align-self: center;
+  width: 25%;
+}
+.navTextoBusqueda {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  font-size: 20;
+}
+.navBtnBusqueda {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  font-size: 20;
+}
+.navCarroContainer {
+  align-self: flex-end;
+  width: 25%;
+  background-color: lightcoral;
+}
+.itemsCarro {
+  color: white;
+  background-color: red;
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  text-align: center;
+}
