@@ -222,7 +222,7 @@ function agregaCarro(id) {
 
             if (existe == false) {
                 var item = new Item(id, nombre, url, precio, descuento, 1);
-                carro.push(item);
+                carro[carro.length] = item;
             }
             guardarCarroSesion()
             cargarCarro();
