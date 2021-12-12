@@ -336,7 +336,7 @@ function restarQty(id) {
 /*Actualizar el total de los productos */
 function calcularTotal() {
     var total = 0;
-    if (carro.lenght > 0) {
+    if (carro.length > 0) {
         for (var i in carro) {
             var totProd = 0;
             if (carro[i].descuento != 0) {
