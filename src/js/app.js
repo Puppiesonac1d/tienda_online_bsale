@@ -10,33 +10,26 @@ function Item(id, nombre, url, precio, descuento, qty) {
 }
 
 //Crear arreglo de items en el carro
-var carro = new Array();
+var carro = [];
 
 //Inicializar items
 window.onload = function () {
+    //limpiarTodo();
     buscarProductos();
     cargarCarro();
-    listarArticulos();
+    calcularTotal();
+    listarArticulosCarro();
 };
-
-function filtrar() {
-    var s = document.getElementById("buscarTXT").value;
-    buscarProductos();
-}
 
 function buscarProductos() {
     $.ajax({
         type: "GET",
-        url: "https://tienda-online-desafio-bsale.herokuapp.com/prodAPI.php",
+        url: "src/api/prodAPI.php",
         data: {
-            busqueda: document.getElementById("buscarTXT").value,
         },
         success: function (response) {
-            while (document.getElementById("contenedorListaProductos").firstChild) {
-                document.getElementById("contenedorListaProductos").removeChild(document.getElementById("contenedorListaProductos").firstChild);
-            }
 
-            var respJSON = response;
+            var respJSON = JSON.parse(response);
 
             for (var i = 0; i < respJSON.length; i++) {
                 var cardProducto = document.createElement("div");
@@ -186,21 +179,24 @@ function cargarCarro() {
     carro = JSON.parse(sessionStorage.getItem('carro'));
 }
 
-function agregaCarro(id) {
+function agregaCarro(prodId) {
+
+    var id = '';
+    var nombre = '';
+    var url = '';
+    var precio = '';
+    var descuento = '';
+
     $.ajax({
         type: "GET",
-        url: "https://tienda-online-desafio-bsale.herokuapp.com/prodAPI.php",
+        url: "src/api/busquedaAPI.php",
         data: {
-            prodId: id
+            prodId: prodId
         },
         success: function (response) {
-            var respJSON = response;
+            console.log('respuesta: ' + response);
 
-            var id = '';
-            var nombre = '';
-            var url = '';
-            var precio = '';
-            var descuento = '';
+            var respJSON = JSON.parse(response);
             for (var i = 0; i < respJSON.length; i++) {
                 id = respJSON[i].idProd;
                 nombre = respJSON[i].prod;
@@ -231,9 +227,8 @@ function agregaCarro(id) {
     });
 }
 
-function listarArticulos() {
-    console.log(JSON.stringify(carro, null, 3));
-    var output = "";
+function listarArticulosCarro() {
+    var output = '';
     for (var i in carro) {
         if (carro[i].descuento != 0) {
             output += "<div class='carroItem'>" +
@@ -299,6 +294,7 @@ function listarArticulos() {
         }
     }
     $('#carroList').html(output);
+    calcularTotal();
 }
 
 /* Incrementar o restar la cantidad de unidades de un producto */
@@ -312,7 +308,7 @@ function aumentarQty(id) {
         }
     }
     calcularTotal();
-    listarArticulos();
+    listarArticulosCarro();
 }
 
 function restarQty(id) {
@@ -330,7 +326,7 @@ function restarQty(id) {
         }
     }
     calcularTotal();
-    listarArticulos();
+    listarArticulosCarro();
 }
 
 /*Actualizar el total de los productos */
@@ -347,6 +343,7 @@ function calcularTotal() {
             total = totProd + total;
         }
     }
+    document.getElementById('totalPagar').innerHTML = total;
 }
 
 /* Eliminar elementos */
@@ -360,7 +357,7 @@ function borrarArticulo(id) {
         }
     }
     cargarCarro();
-    listarArticulos();
+    listarArticulosCarro();
 }
 
 function limpiarTodo() {
@@ -368,5 +365,5 @@ function limpiarTodo() {
     calcularTotal();
     guardarCarroSesion();
     cargarCarro();
-    listarArticulos();
+    listarArticulosCarro();
 }
