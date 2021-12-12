@@ -27,7 +27,7 @@ function filtrar() {
 function buscarProductos() {
     $.ajax({
         type: "GET",
-        url: "src/api/prodAPI.php",
+        url: "https://tienda-online-desafio-bsale.herokuapp.com/prodAPI.php",
         data: {
             busqueda: document.getElementById("buscarTXT").value,
         },
@@ -189,7 +189,7 @@ function cargarCarro() {
 function agregaCarro(id) {
     $.ajax({
         type: "GET",
-        url: "src/api/prodAPI.php",
+        url: "https://tienda-online-desafio-bsale.herokuapp.com/prodAPI.php",
         data: {
             prodId: id
         },
