@@ -63,7 +63,6 @@ function agregaCarro(id) {
             }
             guardarCarroSesion()
             cargarCarro();
-            document.getElementById("numItems").innerHTML = carro.length;
         }
     });
 }
