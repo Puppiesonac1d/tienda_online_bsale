@@ -36,7 +36,7 @@ function buscarProductos() {
                 document.getElementById("contenedorListaProductos").removeChild(document.getElementById("contenedorListaProductos").firstChild);
             }
 
-            var respJSON = JSON.parse(response);
+            var respJSON = response;
 
             for (var i = 0; i < respJSON.length; i++) {
                 var cardProducto = document.createElement("div");
@@ -194,7 +194,7 @@ function agregaCarro(id) {
             prodId: id
         },
         success: function (response) {
-            var respJSON = JSON.parse(response);
+            var respJSON = response;
 
             var id = '';
             var nombre = '';
