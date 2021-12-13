@@ -17,9 +17,13 @@ if ($conn->connect_error) {
 header('Content-Type: JSON');
 //Si se recibe un GET con parámetros de búsqueda...
 //Cargar productos
-$prodId = $_GET['prodId'];
-$query = "select p.id as idProd,p.name as prod,p.url_image,p.price,p.discount, c.name as cat from product p join category c on p.category = c.id 
-where p.id=" . $prodId . ";";
+$prodId = 0;
+
+if (!empty($_GET['prodId'])) {
+    $prodId = $_GET['prodId'];
+}
+
+$query = "select p.id as idProd,p.name as prod,p.url_image,p.price,p.discount, c.name as cat from product p join category c on p.category = c.id where p.id=$prodId;";
 $result = mysqli_query($conn, $query);
 $arr = array();
 

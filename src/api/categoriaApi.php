@@ -18,14 +18,9 @@ if ($conn->connect_error) {
     die('Conexión fallida con el host: ' . $conn->connect_error);
 }
 
-
 //Si se recibe un GET con parámetros de búsqueda...
-//Cargar productos
-
-$nomProd = $_GET['nomProd'];
-
-$query = "select p.id as idProd,p.name as prod,p.url_image,p.price,p.discount, c.name as cat from product p join category c on p.category = c.id 
-where  LOWER(p.name) like LOWER('%$nomProd%');";
+//Cargar categorias
+$query = "select name as cat from category order by name;";
 $result = mysqli_query($conn, $query);
 $arr = array();
 
@@ -34,3 +29,5 @@ while ($row = mysqli_fetch_array($result)) {
 }
 
 echo json_encode($arr);
+
+mysqli_close($conn);
