@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="src/stylesheet/style.css" rel="stylesheet" />
+    <script src="src/js/app.js"></script>
+    <title>Inicio</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="src/stylesheet/style.css" rel="stylesheet">
-  <script src="src/js/app.js"></script>
-  <title>Document</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
+  <body>
+    <div class="navbar" id="nav">
+      <div class="nav_tit">
+        <a href="index.html">
+          <h1>Tienda</h1>
+        </a>
+      </div>
+      <div class="navSearch">
+        <input
+          id="nomProd"
+          class="navSearchText"
+          type="text"
+          placeholder="Buscar"
+        />
+        <button class="navSearchButton" onclick="buscarProductos()">
+          <img
+            src="https://img.icons8.com/ios-glyphs/30/000000/search--v1.png"
+          />
+        </button>
+      </div>
+      <div class="navCart">
+        <a href="checkOut.html">
+          <div class="itemsCarro">
+            <img
+              src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/30/000000/external-shopping-cart-interface-kiranshastry-lineal-kiranshastry-1.png"
+            />
+          </div>
+        </a>
+      </div>
+    </div>
 
-<body>
-  <div class="navbar" id="nav">
-    <div class="nav_tit">
-      <a href="index.php">
-        <h1>Tienda</h1>
-      </a>
-    </div>
-    <div class="navSearch">
-      <input id="buscarTXT" class="navSearchText" type="text" placeholder="Buscar" />
-      <button class="navSearchButton" onclick="filtrar()">
-        <img src="https://img.icons8.com/ios-glyphs/30/000000/search--v1.png" />
-        buscar
-      </button>
-    </div>
-    <div class="navCart">
-      <a href="checkOut.php">
-        <div class="itemsCarro">
-          <img src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/30/000000/external-shopping-cart-interface-kiranshastry-lineal-kiranshastry-1.png" />
+    <section style="display: flex; flex-direction: column; justify-content: center">
+        <div style='display: flex; flex-direction: row; justify-content:center;padding:10px;'>
+            <h1>Seleccione producto:</h1>
         </div>
-      </a>
-    </div>
-  </div>
-
-  <section style="display: flex; flex-direction: row; justify-content: center">
-    <div id="contenedorListaProductos" style="
+      <div
+        id="contenedorListaProductos"
+        style="
           display: grid;
           justify-content: center;
           grid-template-columns: auto auto auto;
@@ -43,8 +55,220 @@
           overflow: auto;
           background-color: #ddd;
           width: 100%;
-        "></div>
-  </section>
-</body>
+        "
+      ></div>
+    </section>
+    <script>
+      //Inicializar items
+      window.onload = function () {
+        buscarProductos();
+      };
 
+      function buscarProductos() {
+        $.ajax({
+          type: "GET",
+          url: "/proyecto/src/api/prodAPI.php",
+          data: {
+            nomProd: document.getElementById('nomProd').value
+          },
+          success: function (response) {
+               
+            while (document.getElementById("contenedorListaProductos").firstChild) {
+                document.getElementById("contenedorListaProductos").removeChild(document.getElementById("contenedorListaProductos").firstChild);
+            }
+              
+            console.log(response);
+             
+            console.log(document.getElementById('nomProd').value);
+            var respJSON = response;
+
+            for (var i = 0; i < respJSON.length; i++) {
+              var cardProducto = document.createElement("div");
+              cardProducto.className = "card-producto";
+
+              /* ID DEL PRODUCTO */
+
+              //Contenedor de id del producto
+              var idProductoCont = document.createElement("div");
+              idProductoCont.className = "prod-id";
+
+              //Numero de identificacion
+              var idProducto = document.createElement("span");
+              idProducto.className = "spanMute";
+              idProducto.innerHTML = respJSON[i].idProd;
+
+              idProductoCont.appendChild(idProducto);
+
+              /* FIN DE ID DE PRODUCTO */
+
+              //contenedor de Imagen del producto
+              var imgCont = document.createElement("div");
+              imgCont.className = "cardImgContainer";
+
+              var img = document.createElement("img");
+              img.className = "img-130";
+              img.alt = "?";
+              img.src = respJSON[i].url_image;
+
+              imgCont.appendChild(img);
+
+              //Contenedor de información de producto
+              var infProdCont = document.createElement("div");
+              infProdCont.className = "inf-prod-cont";
+
+              //Si el descuento es mayor a 0, se adjuntará el div que indica el porcentaje de descuento
+              if (respJSON[i].discount > 0) {
+                var disContainer = document.createElement("div");
+                disContainer.className = "dcto-prod";
+                disContainer.innerHTML = respJSON[i].discount + "%";
+                infProdCont.appendChild(disContainer);
+              }
+
+              var hr = document.createElement("hr");
+              hr.style.color = "#a6a6a6";
+              hr.style.opacity = 0.3;
+
+              infProdCont.appendChild(hr);
+
+              //Contenedor interno
+
+              var infCont2 = document.createElement("div");
+              infCont2.style.display = "flex";
+              infCont2.style.flexDirection = "column";
+
+              //contenedor de Nombre del producto
+              var tituloCont = document.createElement("div");
+              tituloCont.style.textAlign = "center";
+              tituloCont.style.color = "#404040";
+              tituloCont.style.height = "50%";
+              tituloCont.style.whiteSpace = "nowrap";
+              tituloCont.style.overflow = "hidden";
+              tituloCont.style.textOverflow = "ellipsis";
+
+              //Nombre de producto
+
+              var titulo = document.createElement("b");
+              titulo.innerHTML = respJSON[i].prod;
+
+              tituloCont.appendChild(titulo);
+
+              //Contenedor de totales
+              var totalesCont = document.createElement("div");
+              totalesCont.style.textAlign = "center";
+              totalesCont.style.height = "40%";
+              totalesCont.style.display = "flex";
+              totalesCont.style.flexDirection = "column";
+
+              if (respJSON[i].discount > 0) {
+                var calcDcto =
+                  parseInt(respJSON[i].price) -
+                  (parseInt(respJSON[i].discount) *
+                    parseInt(respJSON[i].price)) /
+                    100;
+
+                var precioDcto = document.createElement("span");
+                precioDcto.innerHTML = "Precio oferta: $" + calcDcto;
+
+                var precioNormal = document.createElement("span");
+                precioNormal.style.color = "b3b3b3";
+                precioNormal.innerHTML =
+                  "Precio normal: $<s>" + parseInt(respJSON[i].price) + "</s>";
+
+                totalesCont.appendChild(precioDcto);
+                totalesCont.appendChild(precioNormal);
+              } else {
+                var precioNormal = document.createElement("span");
+                precioNormal.style.color = "b3b3b3";
+                precioNormal.innerHTML =
+                  "Precio normal: $" + parseInt(respJSON[i].price);
+                totalesCont.appendChild(precioNormal);
+              }
+
+              //boton de agregar al carrito
+              var agregaCarroCont = document.createElement("div");
+              agregaCarroCont.style.display = "flex";
+              agregaCarroCont.style.flexDirection = "row";
+              agregaCarroCont.style.justifyContent = "space-evenly";
+
+              var agregaCarroBtn = document.createElement("button");
+              agregaCarroBtn.id = "b" + respJSON[i].idProd;
+              agregaCarroBtn.className = "btn-add-carro";
+              agregaCarroBtn.innerHTML = "Agregar al carro";
+
+              agregaCarroBtn.onclick = function () {
+                console.log("id del boton: " + this.id.replace("b", ""));
+                agregaCarro(this.id.replace("b", ""));
+              };
+
+              agregaCarroCont.appendChild(agregaCarroBtn);
+
+              infCont2.appendChild(tituloCont);
+              infCont2.appendChild(totalesCont);
+              infCont2.appendChild(agregaCarroCont);
+
+              infProdCont.appendChild(infCont2);
+
+              //Juntar los elementos creados
+              cardProducto.appendChild(idProductoCont);
+              cardProducto.appendChild(imgCont);
+              cardProducto.appendChild(infProdCont);
+
+              document
+                .getElementById("contenedorListaProductos")
+                .appendChild(cardProducto);
+            }
+          },
+        });
+      }
+      
+      function agregaCarro(prodId) {
+
+    var id = '';
+    var nombre = '';
+    var url = '';
+    var precio = '';
+    var descuento = '';
+
+    $.ajax({
+        type: "GET",
+        url: "src/api/busquedaAPI.php",
+        data: {
+            prodId: prodId
+        },
+        success: function (response) {
+            console.log('respuesta: ' + response);
+
+            var respJSON = response;
+            for (var i = 0; i < respJSON.length; i++) {
+                id = respJSON[i].idProd;
+                nombre = respJSON[i].prod;
+                url = respJSON[i].url_image;
+                precio = respJSON[i].price;
+                descuento = respJSON[i].discount;
+            }
+
+            //Validar la existencia del producto, por lo que si eiste se incrementará en 1 su QTY, en caso contrario, se guardará uno nuevo
+            var existe = false;
+            for (var i in carro) {
+                if (carro[i].id === id) {
+                    existe = true;
+                    carro[i].qty = carro[i].qty + 1;
+                    window.alert('Ya existe el producto');
+                    break;
+                }
+            }
+
+            if (existe == false) {
+                var item = new Item(id, nombre, url, precio, descuento, 1);
+                carro.push(item);
+            }
+            guardarCarroSesion()
+            cargarCarro();
+            window.alert('Producto agregado al carrito!');
+        }
+    });
+}
+    </script>
+  </body>
 </html>
+

@@ -1,55 +1,255 @@
 <!DOCTYPE html>
 <html>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <!--Imports-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="src/js/app.js"></script>
-  <link rel="stylesheet" href="src/stylesheet/style.css" />
-</head>
-
-<body>
-  <section>
-    <div class="carroWrapper">
-      <!--Listado de productos-->
-      <div class="contenedorListaProductos">
-        <div class="carroTitulo">
-          <div><a href="index.php">Volver</a></div>
-          <h1>Carro | 1 Productos</h1>
-          <hr />
-        </div>
-        <!--Items-->
-        <div id="carroList" style="height: 600px; padding: 10px; overflow: auto"></div>
-        <!--Fin de items-->
-      </div>
-      <!--Fin de listado de productos-->
-      <!--Total-->
-      <div class="contenedorPagos">
-        <div class="carroTitulo">
-          <h1>Resumen de la compra</h1>
-          <hr />
-        </div>
-        <div class="contenedorItems">
-          <div class="carroItem-int">
-            <h3>Total a pagar:</h3>
-            <span id="totalPagar"></span>
+  <head>
+    <!--Imports-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="src/js/app.js"></script>
+    <link rel="stylesheet" href="src/stylesheet/style.css" />
+  </head>
+  <body>
+    <section>
+      <div class="carroWrapper">
+        <!--Listado de productos-->
+        <div class="contenedorListaProductos">
+          <div class="carroTitulo">
+            <div
+              style="
+                border-radius: 20px;
+                height: 60px;
+                width: 200px;
+                padding: 10px;
+                color: white;
+                background-color: #24a0ed;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                transition: 0.3s;
+                text-align: center;
+              "
+            >
+              <a href="index.html"
+                ><h1 style="color: white">Volver a la tienda</h1></a
+              >
+            </div>
+            <h1>Carro</h1>
+            <hr />
           </div>
-          <div class="carroItem-int">
-            <input type="button" value="Pagar" />
+          <!--Items-->
+          <div
+            id="carroList"
+            style="height: 600px; padding: 10px; overflow: auto"
+          ></div>
+          <!--Fin de items-->
+        </div>
+        <!--Fin de listado de productos-->
+        <!--Total-->
+        <div class="contenedorPagos">
+          <div class="carroTitulo">
+            <h1>Resumen de la compra</h1>
+            <hr />
+          </div>
+          <div class="contenedorItems">
+            <div class="carroItem-int">
+              <h3>Total a pagar:</h3>
+              $
+              <span id="totalPagar"></span>
+            </div>
+            <div class="carroItem-int">
+              <input type="button" value="Pagar" />
+            </div>
           </div>
         </div>
+        <!--Fin de total-->
       </div>
-      <!--Fin de total-->
-    </div>
-  </section>
-</body>
-<script>
-  //Inicializar items
-  window.onload = function() {
-    cargarCarro();
-    listarArticulos();
-  };
-</script>
+    </section>
+  </body>
+  <script>
+    //Inicializar items
+    window.onload = function () {
+      cargarCarro();
+      listarArticulosCarro();
+    };
 
+    function listarArticulosCarro() {
+      var output = "";
+      for (var i in carro) {
+        if (carro[i].descuento != 0) {
+          output +=
+            "<div class='carroItem'>" +
+            "<div class='carroItem-int'>" +
+            "<span class='spanMute'>id: " +
+            carro[i].id +
+            "</span>" +
+            "</div>" +
+            "<div class='carroItem-int'>" +
+            "<img class='img-80' src='" +
+            carro[i].url +
+            "' alt='?' />" +
+            "</div>" +
+            "<div class='carroItem-int '>" +
+            "<span class='text-align: left;font-size: small;'>" +
+            carro[i].nombre +
+            "</span>" +
+            "</div>" +
+            "<hr>" +
+            "<div class='carroItem-int ' style='flex-direction:column'>" +
+            "<span>Precio con descuento: $" +
+            (parseInt(carro[i].precio) -
+              (parseInt(carro[i].descuento) * parseInt(carro[i].precio)) /
+                100) +
+            "</span>" +
+            "<span>Precio normal : $<s>" +
+            carro[i].precio +
+            "</s></span>" +
+            "</div>" +
+            "<hr>" +
+            "<div class='carroItem-int '>" +
+            "<input type='button' value='-' style='border-radius:10px;background-color:#ddd;border: solid 0.5px;width:30px;height:30px;' " +
+            "onclick='restarQty(" +
+            carro[i].id +
+            ");'/>" +
+            "<input id='qty" +
+            carro[i].id +
+            "' " +
+            "type='numeric' value='" +
+            carro[i].qty +
+            "' style='width:40px;height:30px;background-color: white;border: solid 0.5px;border-radius:10px'/>" +
+            "<input type='button' style='border-radius:10px;background-color:#ddd;border: solid 0.5px;width:30px;height:30px;' value='+' " +
+            "onclick='aumentarQty(" +
+            carro[i].id +
+            ");'/>" +
+            "</div>" +
+            "<div class='carroItem-int'>" +
+            "<input type='button' id='" +
+            carro[i].id +
+            "' value ='X' " +
+            "style='background-color:red;width:20px;height:20px;border-radius:20px;color:white;border: solid 0.5px' " +
+            "onclick='borrarArticulo(" +
+            carro[i].id +
+            ")' />" +
+            "</div>" +
+            "</div>";
+        } else {
+          output +=
+            "<div class='carroItem'>" +
+            "<div class='carroItem-int'>" +
+            "<span class='spanMute'>id: " +
+            carro[i].id +
+            "</span>" +
+            "</div>" +
+            "<div class='carroItem-int'>" +
+            "<img class='img-80' src='" +
+            carro[i].url +
+            "' alt='?' />" +
+            "</div>" +
+            "<div class='carroItem-int '>" +
+            "<span>" +
+            carro[i].nombre +
+            "</span>" +
+            "</div>" +
+            "<hr>" +
+            "<div class='carroItem-int ' style='flex-direction:column'>" +
+            "<span>Precio normal : $" +
+            carro[i].precio +
+            "</span>" +
+            "</div>" +
+            "<hr>" +
+            "<div class='carroItem-int '>" +
+            "<input type='button' value='-' style='border-radius:10px;background-color:#ddd;border: solid 0.5px;width:30px;height:30px;' " +
+            "onclick='restarQty(" +
+            carro[i].id +
+            ");'/>" +
+            "<input id='qty" +
+            carro[i].id +
+            "' " +
+            "type='numeric' value='" +
+            carro[i].qty +
+            "' style='width:40px;height:30px;background-color: white;border: solid 0.5px;border-radius:10px'/>" +
+            "<input type='button' style='border-radius:10px;background-color:#ddd;border: solid 0.5px;width:30px;height:30px;' value='+' " +
+            "onclick='aumentarQty(" +
+            carro[i].id +
+            ");'/>" +
+            "</div>" +
+            "<div class='carroItem-int'>" +
+            "<input type='button' id='" +
+            carro[i].id +
+            "' value ='X' " +
+            "style='background-color:red;width:20px;height:20px;border-radius:20px;color:white;border: solid 0.5px' " +
+            "onclick='borrarArticulo(" +
+            carro[i].id +
+            ")' />" +
+            "</div>" +
+            "</div>";
+        }
+      }
+      $("#carroList").html(output);
+      calcularTotal();
+    }
+
+    /* Incrementar o restar la cantidad de unidades de un producto */
+    function aumentarQty(id) {
+      for (var i in carro) {
+        if (carro[i].id == id) {
+          var actQty = carro[i].qty + 1;
+          carro[i].qty = actQty;
+          guardarCarroSesion();
+          break;
+        }
+      }
+      calcularTotal();
+      listarArticulosCarro();
+    }
+
+    function restarQty(id) {
+      for (var i in carro) {
+        if (carro[i].id == id) {
+          var actQty = carro[i].qty - 1;
+          if (actQty >= 1) {
+            carro[i].qty = actQty;
+          } else {
+            document.getElementById("totalPagar").innerHTML = 0;
+            carro.splice(i, 1);
+          }
+          break;
+        }
+      }
+      calcularTotal();
+      listarArticulosCarro();
+    }
+
+    /*Actualizar el total de los productos */
+    function calcularTotal() {
+      if (carro.length > 0) {
+        var total = 0;
+        for (var i in carro) {
+          var totProd = 0;
+          if (carro[i].descuento != 0) {
+            totProd =
+              (parseInt(carro[i].precio) -
+                (parseInt(carro[i].descuento) * parseInt(carro[i].precio)) /
+                  100) *
+              parseInt(carro[i].qty);
+          } else {
+            totProd = parseInt(carro[i].precio) * parseInt(carro[i].qty);
+          }
+          total = totProd + total;
+        }
+        document.getElementById("totalPagar").innerHTML = total;
+      }
+    }
+
+    /* Eliminar elementos */
+
+    function borrarArticulo(id) {
+      for (var i in carro) {
+        if (carro[i].id == id) {
+          carro.splice(i, 1);
+          guardarCarroSesion();
+          break;
+        }
+      }
+      cargarCarro();
+      listarArticulosCarro();
+    }
+  </script>
 </html>
