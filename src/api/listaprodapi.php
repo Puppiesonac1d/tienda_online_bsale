@@ -36,7 +36,7 @@ if (!empty($_GET['cat'])) {
 
 //Busqueda
 if (!empty($_GET['nomProd']) && !empty($_GET['cat'])) {
-    $busqueda = " where LOWER(p.name) like LOWER('%$nomProd%') and LOWER(c.name) like LOWER('%$cat%');";
+    $busqueda = " where LOWER(p.name) like LOWER('%$nomProd%') or LOWER(c.name) like LOWER('%$cat%');";
 } else if (!empty($_GET['nomProd'])) {
     $busqueda = " where LOWER(p.name) like LOWER('%$nomProd%');";
 } else if (!empty($_GET['cat'])) {
