@@ -41,10 +41,19 @@
       </div>
     </div>
 
-    <section style="display: flex; flex-direction: column; justify-content: center">
-        <div style='display: flex; flex-direction: row; justify-content:center;padding:10px;'>
-            <h1>Seleccione producto:</h1>
-        </div>
+    <section
+      style="display: flex; flex-direction: column; justify-content: center"
+    >
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          padding: 10px;
+        "
+      >
+        <h1>Seleccione producto:</h1>
+      </div>
       <div
         id="contenedorListaProductos"
         style="
@@ -69,17 +78,22 @@
           type: "GET",
           url: "/proyecto/src/api/prodAPI.php",
           data: {
-            nomProd: document.getElementById('nomProd').value
+            nomProd: document.getElementById("nomProd").value,
           },
           success: function (response) {
-               
-            while (document.getElementById("contenedorListaProductos").firstChild) {
-                document.getElementById("contenedorListaProductos").removeChild(document.getElementById("contenedorListaProductos").firstChild);
+            while (
+              document.getElementById("contenedorListaProductos").firstChild
+            ) {
+              document
+                .getElementById("contenedorListaProductos")
+                .removeChild(
+                  document.getElementById("contenedorListaProductos").firstChild
+                );
             }
-              
+
             console.log(response);
-             
-            console.log(document.getElementById('nomProd').value);
+
+            console.log(document.getElementById("nomProd").value);
             var respJSON = response;
 
             for (var i = 0; i < respJSON.length; i++) {
@@ -220,55 +234,53 @@
           },
         });
       }
-      
+
       function agregaCarro(prodId) {
+        var id = "";
+        var nombre = "";
+        var url = "";
+        var precio = "";
+        var descuento = "";
 
-    var id = '';
-    var nombre = '';
-    var url = '';
-    var precio = '';
-    var descuento = '';
-
-    $.ajax({
-        type: "GET",
-        url: "src/api/busquedaAPI.php",
-        data: {
-            prodId: prodId
-        },
-        success: function (response) {
-            console.log('respuesta: ' + response);
+        $.ajax({
+          type: "GET",
+          url: "src/api/busquedaAPI.php",
+          data: {
+            prodId: prodId,
+          },
+          success: function (response) {
+            console.log("respuesta: " + response);
 
             var respJSON = response;
             for (var i = 0; i < respJSON.length; i++) {
-                id = respJSON[i].idProd;
-                nombre = respJSON[i].prod;
-                url = respJSON[i].url_image;
-                precio = respJSON[i].price;
-                descuento = respJSON[i].discount;
+              id = respJSON[i].idProd;
+              nombre = respJSON[i].prod;
+              url = respJSON[i].url_image;
+              precio = respJSON[i].price;
+              descuento = respJSON[i].discount;
             }
 
             //Validar la existencia del producto, por lo que si eiste se incrementará en 1 su QTY, en caso contrario, se guardará uno nuevo
             var existe = false;
             for (var i in carro) {
-                if (carro[i].id === id) {
-                    existe = true;
-                    carro[i].qty = carro[i].qty + 1;
-                    window.alert('Ya existe el producto');
-                    break;
-                }
+              if (carro[i].id === id) {
+                existe = true;
+                carro[i].qty = carro[i].qty + 1;
+                window.alert("Ya existe el producto");
+                break;
+              }
             }
 
             if (existe == false) {
-                var item = new Item(id, nombre, url, precio, descuento, 1);
-                carro.push(item);
+              var item = new Item(id, nombre, url, precio, descuento, 1);
+              carro.push(item);
             }
-            guardarCarroSesion()
+            guardarCarroSesion();
             cargarCarro();
-            window.alert('Producto agregado al carrito!');
-        }
-    });
-}
+            window.alert("Producto agregado al carrito!");
+          },
+        });
+      }
     </script>
   </body>
 </html>
-
