@@ -1,42 +1,223 @@
 /* Modificaciones de estilos, basados en la librería de Bootstrap */
-.navContainer {
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #404040;
+}
+body {
+  margin: 0;
+}
+
+hr {
+  color: #a6a6a6;
+  opacity: 0.3;
+}
+
+.spanMute {
+  opacity: 0.5;
+  margin: 15px;
+  font-size: small;
+  pointer-events: none;
+}
+
+/*#region navRegion*/
+.navbar {
+  position: sticky;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
 }
-.navIcon {
-  align-self: flex-start;
-  width: 25%;
-}
-.ddCategorias {
-  width: 25%;
-}
-.navBusquedaContainer {
-  align-self: center;
-  width: 25%;
-}
-.navTextoBusqueda {
-  border-radius: 10px;
-  border: 1px solid #ccc;
+.navSearch {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   margin: 10px;
-  font-size: 20;
+  width: 50%;
 }
-.navBtnBusqueda {
+
+.navSearchText {
+  background-color: white;
+  border: solid 0.5px;
   border-radius: 10px;
-  border: 1px solid #ccc;
-  margin: 10px;
-  font-size: 20;
+  height: 40px;
+  width: 80%;
 }
-.navCarroContainer {
-  align-self: flex-end;
-  width: 25%;
-  background-color: lightcoral;
+
+.navSearchButton {
+  border: transparent;
+  background-color: white;
+  width: auto;
 }
+
+.navCart {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
 .itemsCarro {
-  color: white;
-  background-color: red;
-  width: 10px;
-  height: 10px;
-  border-radius: 100px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.itemNu {
+  background-color: red;
+  border-radius: 20px;
+  padding: 10px;
+}
+/*#endregion navRegion*/
+
+.destacadosContainer {
+  display: flex;
+  flex-direction: row;
+  height: 400px;
+  width: auto;
+  padding: 10px;
+  overflow: auto;
+}
+
+.card-producto {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 420px;
+  height: 350px;
+  background-color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.prod-id {
+  padding: 10px;
+}
+
+.cardImgContainer {
+  height: 50%;
+  margin-bottom: 10px;
+  text-align: center;
+  pointer-events: none;
+}
+.img-130 {
+  height: 130px;
+  width: 130px;
+}
+
+.img-80 {
+  height: 80px;
+  width: 80px;
+}
+
+.dcto-prod {
+  text-align: center;
+  background-color: red;
+  color: white;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  width: 30%;
+  border-top-left-radius: 20px;
+}
+
+.inf-prod-cont {
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  bottom: 0;
+}
+
+.btn-add-carro {
+  width: 40%;
+  height: 60px;
+  padding: 5px;
+  margin: 10px;
+  background-color: #24a0ed;
+  color: white;
+  font-weight: bold;
+  font-size: small;
+  word-wrap: break-word;
+  border: transparent;
+  border-radius: 10px;
+  font-size: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  pointer-events: initial;
+}
+
+.btn-add-detalle {
+  width: 40%;
+  height: 20px;
+  padding: 10px;
+  margin: 10px;
+  background-color: #2464ed;
+  color: white;
+  font-weight: bold;
+  font-size: small;
+  word-wrap: break-word;
+  border: transparent;
+  border-radius: 10px;
+  font-size: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  pointer-events: initial;
+}
+
+/*#region navRegion*/
+.carroWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 10px;
+}
+.carroTitulo {
+  text-align: left;
+  font-size: small;
+}
+
+.contenedorListaProductos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  overflow: auto;
+}
+
+.carroItem {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.carroItem-int {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  word-wrap: break-word;
+}
+
+.contenedorPagos {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+/*#endregion navRegion*/
