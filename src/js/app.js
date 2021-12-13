@@ -7,9 +7,10 @@ function Item(id, nombre, url, precio, descuento, qty) {
     this.descuento = descuento;
     this.qty = qty;
 }
-
+//Arreglo que contiene los items
 var carro = [];
 
+//Listar categorias de api
 function listarCategorias() {
     console.log('cargando lista de categorias...');
     var url = 'src/api/categoriaApi.php';
@@ -43,8 +44,7 @@ function listarCategorias() {
         });
 }
 
-
-//Mostrar datos
+//Listar productos desde API
 function listarProductos(busqueda, cat) {
     console.log('Busqueda: ' + busqueda + ' - ' + 'categoria : ' + cat)
     var url = 'src/api/listaprodapi.php?nomProd=' + busqueda + '&cat=' + cat;
@@ -198,7 +198,6 @@ function agregaCarro(prodId) {
             }
         });
 }
-
 
 //Ejecutar al iniciar la aplicación
 listarCategorias()
